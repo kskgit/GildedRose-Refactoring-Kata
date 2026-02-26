@@ -56,6 +56,36 @@ func Test_通常アイテム_期限切れ後にQualityが0なら0のまま(t *te
 	assertItem(t, items[0], expected{SellIn: -1, Quality: 0})
 }
 
+func Test_Sulfuras_SellInもQualityも変化しない(t *testing.T) {
+	items := []*gildedrose.Item{
+		{"Sulfuras, Hand of Ragnaros", 0, 80},
+	}
+
+	gildedrose.UpdateQuality(items)
+
+	assertItem(t, items[0], expected{SellIn: 0, Quality: 80})
+}
+
+func Test_Sulfuras_SellInが正の場合も変化しない(t *testing.T) {
+	items := []*gildedrose.Item{
+		{"Sulfuras, Hand of Ragnaros", 10, 80},
+	}
+
+	gildedrose.UpdateQuality(items)
+
+	assertItem(t, items[0], expected{SellIn: 10, Quality: 80})
+}
+
+func Test_Sulfuras_SellInが負の場合も変化しない(t *testing.T) {
+	items := []*gildedrose.Item{
+		{"Sulfuras, Hand of Ragnaros", -1, 80},
+	}
+
+	gildedrose.UpdateQuality(items)
+
+	assertItem(t, items[0], expected{SellIn: -1, Quality: 80})
+}
+
 type expected struct {
 	SellIn  int
 	Quality int

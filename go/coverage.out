@@ -1,0 +1,9 @@
+mode: set
+github.com/emilybache/gildedrose-refactoring-kata/texttest_fixture.go:11.13,28.22 5 0
+github.com/emilybache/gildedrose-refactoring-kata/texttest_fixture.go:28.22,30.17 2 0
+github.com/emilybache/gildedrose-refactoring-kata/texttest_fixture.go:30.17,33.4 2 0
+github.com/emilybache/gildedrose-refactoring-kata/texttest_fixture.go:34.3,34.9 1 0
+github.com/emilybache/gildedrose-refactoring-kata/texttest_fixture.go:37.2,37.34 1 0
+github.com/emilybache/gildedrose-refactoring-kata/texttest_fixture.go:37.34,40.35 3 0
+github.com/emilybache/gildedrose-refactoring-kata/texttest_fixture.go:40.35,42.4 1 0
+github.com/emilybache/gildedrose-refactoring-kata/texttest_fixture.go:43.3,44.34 2 0
