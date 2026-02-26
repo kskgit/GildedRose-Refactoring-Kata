@@ -6,6 +6,10 @@ import (
 	"github.com/emilybache/gildedrose-refactoring-kata/gildedrose"
 )
 
+//
+// 通常アイテム
+//
+
 func Test_通常アイテム_SellInとQualityが1減少する(t *testing.T) {
 	items := []*gildedrose.Item{
 		{"foo", 10, 20},
@@ -85,6 +89,10 @@ func Test_Sulfuras_SellInが負の場合も変化しない(t *testing.T) {
 
 	assertItem(t, items[0], expected{SellIn: -1, Quality: 80})
 }
+
+//
+// AgedBrie
+//
 
 func Test_AgedBrie_日が経つほどQualityが上がる(t *testing.T) {
 	items := []*gildedrose.Item{
