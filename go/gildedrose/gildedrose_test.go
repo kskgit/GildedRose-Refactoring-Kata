@@ -86,6 +86,56 @@ func Test_Sulfuras_SellInが負の場合も変化しない(t *testing.T) {
 	assertItem(t, items[0], expected{SellIn: -1, Quality: 80})
 }
 
+func Test_AgedBrie_日が経つほどQualityが上がる(t *testing.T) {
+	items := []*gildedrose.Item{
+		{"Aged Brie", 10, 20},
+	}
+
+	gildedrose.UpdateQuality(items)
+
+	assertItem(t, items[0], expected{SellIn: 9, Quality: 21})
+}
+
+func Test_AgedBrie_1日前はQualityが1上がる_境界値(t *testing.T) {
+	items := []*gildedrose.Item{
+		{"Aged Brie", 1, 20},
+	}
+
+	gildedrose.UpdateQuality(items)
+
+	assertItem(t, items[0], expected{SellIn: 0, Quality: 21})
+}
+
+func Test_AgedBrie_期限切れ後はQualityが2上がる_境界値(t *testing.T) {
+	items := []*gildedrose.Item{
+		{"Aged Brie", 0, 20},
+	}
+
+	gildedrose.UpdateQuality(items)
+
+	assertItem(t, items[0], expected{SellIn: -1, Quality: 22})
+}
+
+func Test_AgedBrie_Qualityは50を超えない(t *testing.T) {
+	items := []*gildedrose.Item{
+		{"Aged Brie", 10, 50},
+	}
+
+	gildedrose.UpdateQuality(items)
+
+	assertItem(t, items[0], expected{SellIn: 9, Quality: 50})
+}
+
+func Test_AgedBrie_期限切れ後もQualityは50を超えない(t *testing.T) {
+	items := []*gildedrose.Item{
+		{"Aged Brie", 0, 49},
+	}
+
+	gildedrose.UpdateQuality(items)
+
+	assertItem(t, items[0], expected{SellIn: -1, Quality: 50})
+}
+
 type expected struct {
 	SellIn  int
 	Quality int
