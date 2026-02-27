@@ -224,6 +224,60 @@ func Test_Backstage_Qualityは50を超えない(t *testing.T) {
 	assertItem(t, items[0], expected{SellIn: 4, Quality: 50})
 }
 
+//
+// Conjured
+//
+
+// func Test_Conjured_Qualityが2減少する(t *testing.T) {
+// 	items := []*gildedrose.Item{
+// 		{"Conjured Mana Cake", 10, 20},
+// 	}
+
+// 	gildedrose.UpdateQuality(items)
+
+// 	assertItem(t, items[0], expected{SellIn: 9, Quality: 18})
+// }
+
+// func Test_Conjured_期限切れ後はQualityが4減少する(t *testing.T) {
+// 	items := []*gildedrose.Item{
+// 		{"Conjured Mana Cake", 0, 20},
+// 	}
+
+// 	gildedrose.UpdateQuality(items)
+
+// 	assertItem(t, items[0], expected{SellIn: -1, Quality: 16})
+// }
+
+// func Test_Conjured_Qualityは0未満にならない(t *testing.T) {
+// 	items := []*gildedrose.Item{
+// 		{"Conjured Mana Cake", 5, 1},
+// 	}
+
+// 	gildedrose.UpdateQuality(items)
+
+// 	assertItem(t, items[0], expected{SellIn: 4, Quality: 0})
+// }
+
+// func Test_Conjured_期限切れ後もQualityは0未満にならない(t *testing.T) {
+// 	items := []*gildedrose.Item{
+// 		{"Conjured Mana Cake", 0, 3},
+// 	}
+
+// 	gildedrose.UpdateQuality(items)
+
+// 	assertItem(t, items[0], expected{SellIn: -1, Quality: 0})
+// }
+
+// func Test_Conjured_期限切れ後にQualityが0なら0のまま(t *testing.T) {
+// 	items := []*gildedrose.Item{
+// 		{"Conjured Mana Cake", 0, 0},
+// 	}
+
+// 	gildedrose.UpdateQuality(items)
+
+// 	assertItem(t, items[0], expected{SellIn: -1, Quality: 0})
+// }
+
 type expected struct {
 	SellIn  int
 	Quality int
