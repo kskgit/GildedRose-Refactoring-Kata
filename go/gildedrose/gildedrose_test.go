@@ -144,6 +144,82 @@ func Test_AgedBrie_期限切れ後もQualityは50を超えない(t *testing.T) {
 	assertItem(t, items[0], expected{SellIn: -1, Quality: 50})
 }
 
+//
+// Backstage passes
+//
+
+const backstage = "Backstage passes to a TAFKAL80ETC concert"
+
+func Test_Backstage_11日前はQualityが1上がる(t *testing.T) {
+	items := []*gildedrose.Item{
+		{backstage, 11, 20},
+	}
+
+	gildedrose.UpdateQuality(items)
+
+	assertItem(t, items[0], expected{SellIn: 10, Quality: 21})
+}
+
+func Test_Backstage_10日前はQualityが2上がる_境界値(t *testing.T) {
+	items := []*gildedrose.Item{
+		{backstage, 10, 20},
+	}
+
+	gildedrose.UpdateQuality(items)
+
+	assertItem(t, items[0], expected{SellIn: 9, Quality: 22})
+}
+
+func Test_Backstage_6日前はQualityが2上がる(t *testing.T) {
+	items := []*gildedrose.Item{
+		{backstage, 6, 20},
+	}
+
+	gildedrose.UpdateQuality(items)
+
+	assertItem(t, items[0], expected{SellIn: 5, Quality: 22})
+}
+
+func Test_Backstage_5日前はQualityが3上がる_境界値(t *testing.T) {
+	items := []*gildedrose.Item{
+		{backstage, 5, 20},
+	}
+
+	gildedrose.UpdateQuality(items)
+
+	assertItem(t, items[0], expected{SellIn: 4, Quality: 23})
+}
+
+func Test_Backstage_1日前はQualityが3上がる(t *testing.T) {
+	items := []*gildedrose.Item{
+		{backstage, 1, 20},
+	}
+
+	gildedrose.UpdateQuality(items)
+
+	assertItem(t, items[0], expected{SellIn: 0, Quality: 23})
+}
+
+func Test_Backstage_コンサート終了後はQualityが0になる(t *testing.T) {
+	items := []*gildedrose.Item{
+		{backstage, 0, 20},
+	}
+
+	gildedrose.UpdateQuality(items)
+
+	assertItem(t, items[0], expected{SellIn: -1, Quality: 0})
+}
+
+func Test_Backstage_Qualityは50を超えない(t *testing.T) {
+	items := []*gildedrose.Item{
+		{backstage, 5, 49},
+	}
+
+	gildedrose.UpdateQuality(items)
+
+	assertItem(t, items[0], expected{SellIn: 4, Quality: 50})
+}
+
 type expected struct {
 	SellIn  int
 	Quality int
