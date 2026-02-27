@@ -60,6 +60,10 @@ func Test_通常アイテム_期限切れ後にQualityが0なら0のまま(t *te
 	assertItem(t, items[0], expected{SellIn: -1, Quality: 0})
 }
 
+//
+// Sulfuras
+//
+
 func Test_Sulfuras_SellInもQualityも変化しない(t *testing.T) {
 	items := []*gildedrose.Item{
 		{"Sulfuras, Hand of Ragnaros", 0, 80},
