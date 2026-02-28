@@ -6,6 +6,7 @@ type Item struct {
 }
 
 const maxQuality = 50
+const minQuality = 0
 
 func UpdateQuality(items []*Item) {
 	for i := 0; i < len(items); i++ {
@@ -34,7 +35,7 @@ func UpdateQuality(items []*Item) {
 				}
 			}
 		default:
-			if items[i].Quality > 0 {
+			if items[i].Quality > minQuality {
 				items[i].Quality = items[i].Quality - 1
 			}
 		}
@@ -51,9 +52,9 @@ func UpdateQuality(items []*Item) {
 				items[i].Quality = items[i].Quality + 1
 			}
 		case "Backstage passes to a TAFKAL80ETC concert":
-			items[i].Quality = 0
+			items[i].Quality = minQuality
 		default:
-			if items[i].Quality > 0 {
+			if items[i].Quality > minQuality {
 				items[i].Quality = items[i].Quality - 1
 			}
 		}
