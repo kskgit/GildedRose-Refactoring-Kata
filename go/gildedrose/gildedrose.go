@@ -10,54 +10,59 @@ const minQuality = 0
 
 func UpdateQuality(items []*Item) {
 	for i := 0; i < len(items); i++ {
-
-		if items[i].Name == "Sulfuras, Hand of Ragnaros" {
-			continue
-		}
-
 		switch items[i].Name {
+		case "Sulfuras, Hand of Ragnaros":
+			// do nothing
 		case "Aged Brie":
-			if items[i].Quality < maxQuality {
-				items[i].Quality = items[i].Quality + 1
-			}
+			updateAgedBrie(items[i])
 		case "Backstage passes to a TAFKAL80ETC concert":
-			if items[i].Quality < maxQuality {
-				items[i].Quality = items[i].Quality + 1
-				if items[i].SellIn < 11 {
-					if items[i].Quality < maxQuality {
-						items[i].Quality = items[i].Quality + 1
-					}
-				}
-				if items[i].SellIn < 6 {
-					if items[i].Quality < maxQuality {
-						items[i].Quality = items[i].Quality + 1
-					}
-				}
-			}
+			updateBackstage(items[i])
 		default:
-			if items[i].Quality > minQuality {
-				items[i].Quality = items[i].Quality - 1
+			updateNormal(items[i])
+		}
+	}
+}
+
+func updateAgedBrie(item *Item) {
+	if item.Quality < maxQuality {
+		item.Quality = item.Quality + 1
+	}
+	item.SellIn = item.SellIn - 1
+	if item.SellIn < 0 {
+		if item.Quality < maxQuality {
+			item.Quality = item.Quality + 1
+		}
+	}
+}
+
+func updateBackstage(item *Item) {
+	if item.Quality < maxQuality {
+		item.Quality = item.Quality + 1
+		if item.SellIn < 11 {
+			if item.Quality < maxQuality {
+				item.Quality = item.Quality + 1
 			}
 		}
-
-		items[i].SellIn = items[i].SellIn - 1
-
-		if items[i].SellIn >= 0 {
-			continue
-		}
-
-		switch items[i].Name {
-		case "Aged Brie":
-			if items[i].Quality < maxQuality {
-				items[i].Quality = items[i].Quality + 1
-			}
-		case "Backstage passes to a TAFKAL80ETC concert":
-			items[i].Quality = minQuality
-		default:
-			if items[i].Quality > minQuality {
-				items[i].Quality = items[i].Quality - 1
+		if item.SellIn < 6 {
+			if item.Quality < maxQuality {
+				item.Quality = item.Quality + 1
 			}
 		}
 	}
+	item.SellIn = item.SellIn - 1
+	if item.SellIn < 0 {
+		item.Quality = minQuality
+	}
+}
 
+func updateNormal(item *Item) {
+	if item.Quality > minQuality {
+		item.Quality = item.Quality - 1
+	}
+	item.SellIn = item.SellIn - 1
+	if item.SellIn < 0 {
+		if item.Quality > minQuality {
+			item.Quality = item.Quality - 1
+		}
+	}
 }
