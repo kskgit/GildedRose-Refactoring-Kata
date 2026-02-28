@@ -49,7 +49,7 @@ func UpdateQuality(items []*Item) {
 				items[i].Quality = items[i].Quality + 1
 			}
 		case "Backstage passes to a TAFKAL80ETC concert":
-			items[i].Quality = items[i].Quality - items[i].Quality
+			items[i].Quality = 0
 		default:
 			if items[i].Quality > 0 {
 				items[i].Quality = items[i].Quality - 1
