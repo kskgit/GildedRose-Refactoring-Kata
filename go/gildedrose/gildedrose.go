@@ -5,6 +5,8 @@ type Item struct {
 	SellIn, Quality int
 }
 
+const maxQuality = 50
+
 func UpdateQuality(items []*Item) {
 	for i := 0; i < len(items); i++ {
 
@@ -14,19 +16,19 @@ func UpdateQuality(items []*Item) {
 
 		switch items[i].Name {
 		case "Aged Brie":
-			if items[i].Quality < 50 {
+			if items[i].Quality < maxQuality {
 				items[i].Quality = items[i].Quality + 1
 			}
 		case "Backstage passes to a TAFKAL80ETC concert":
-			if items[i].Quality < 50 {
+			if items[i].Quality < maxQuality {
 				items[i].Quality = items[i].Quality + 1
 				if items[i].SellIn < 11 {
-					if items[i].Quality < 50 {
+					if items[i].Quality < maxQuality {
 						items[i].Quality = items[i].Quality + 1
 					}
 				}
 				if items[i].SellIn < 6 {
-					if items[i].Quality < 50 {
+					if items[i].Quality < maxQuality {
 						items[i].Quality = items[i].Quality + 1
 					}
 				}
@@ -45,7 +47,7 @@ func UpdateQuality(items []*Item) {
 
 		switch items[i].Name {
 		case "Aged Brie":
-			if items[i].Quality < 50 {
+			if items[i].Quality < maxQuality {
 				items[i].Quality = items[i].Quality + 1
 			}
 		case "Backstage passes to a TAFKAL80ETC concert":
