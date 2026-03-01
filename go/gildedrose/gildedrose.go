@@ -8,61 +8,81 @@ type Item struct {
 const maxQuality = 50
 const minQuality = 0
 
+type itemBehavior interface {
+	adjustQuality(item *Item)
+	adjustExpiredQuality(item *Item)
+}
+
+func updateItem(item *Item, b itemBehavior) {
+	b.adjustQuality(item)
+	item.SellIn--
+	if item.SellIn < 0 {
+		b.adjustExpiredQuality(item)
+	}
+}
+
 func UpdateQuality(items []*Item) {
+	// TODO イミュータブルにする
 	for i := 0; i < len(items); i++ {
 		switch items[i].Name {
 		case "Sulfuras, Hand of Ragnaros":
 			// do nothing
 		case "Aged Brie":
-			updateAgedBrie(items[i])
+			updateItem(items[i], agedBrie{})
 		case "Backstage passes to a TAFKAL80ETC concert":
-			updateBackstage(items[i])
+			updateItem(items[i], backstage{})
 		default:
-			updateNormal(items[i])
+			updateItem(items[i], normal{})
 		}
 	}
 }
 
-func updateAgedBrie(item *Item) {
+type agedBrie struct{}
+
+func (agedBrie) adjustQuality(item *Item) {
 	if item.Quality < maxQuality {
-		item.Quality = item.Quality + 1
-	}
-	item.SellIn = item.SellIn - 1
-	if item.SellIn < 0 {
-		if item.Quality < maxQuality {
-			item.Quality = item.Quality + 1
-		}
+		item.Quality++
 	}
 }
 
-func updateBackstage(item *Item) {
+func (agedBrie) adjustExpiredQuality(item *Item) {
 	if item.Quality < maxQuality {
-		item.Quality = item.Quality + 1
+		item.Quality++
+	}
+}
+
+type backstage struct{}
+
+func (backstage) adjustQuality(item *Item) {
+	if item.Quality < maxQuality {
+		item.Quality++
 		if item.SellIn < 11 {
 			if item.Quality < maxQuality {
-				item.Quality = item.Quality + 1
+				item.Quality++
 			}
 		}
 		if item.SellIn < 6 {
 			if item.Quality < maxQuality {
-				item.Quality = item.Quality + 1
+				item.Quality++
 			}
 		}
 	}
-	item.SellIn = item.SellIn - 1
-	if item.SellIn < 0 {
-		item.Quality = minQuality
+}
+
+func (backstage) adjustExpiredQuality(item *Item) {
+	item.Quality = minQuality
+}
+
+type normal struct{}
+
+func (normal) adjustQuality(item *Item) {
+	if item.Quality > minQuality {
+		item.Quality--
 	}
 }
 
-func updateNormal(item *Item) {
+func (normal) adjustExpiredQuality(item *Item) {
 	if item.Quality > minQuality {
-		item.Quality = item.Quality - 1
-	}
-	item.SellIn = item.SellIn - 1
-	if item.SellIn < 0 {
-		if item.Quality > minQuality {
-			item.Quality = item.Quality - 1
-		}
+		item.Quality--
 	}
 }
