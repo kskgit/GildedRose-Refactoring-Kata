@@ -54,19 +54,21 @@ func (agedBrie) adjustExpiredQuality(item *Item) {
 type backstage struct{}
 
 func (backstage) adjustQuality(item *Item) {
-	if item.Quality < maxQuality {
-		item.Quality++
-		if item.SellIn < 11 {
-			if item.Quality < maxQuality {
-				item.Quality++
-			}
-		}
-		if item.SellIn < 6 {
-			if item.Quality < maxQuality {
-				item.Quality++
-			}
-		}
+	// maxQuality以上は起きえないが条件網羅のため<=とする
+	if item.Quality >= maxQuality {
+		return
 	}
+	item.Quality++
+
+	if item.Quality >= maxQuality || item.SellIn >= 11 {
+		return
+	}
+	item.Quality++
+
+	if item.Quality >= maxQuality || item.SellIn >= 6 {
+		return
+	}
+	item.Quality++
 }
 
 func (backstage) adjustExpiredQuality(item *Item) {
