@@ -42,17 +42,17 @@ func UpdateQuality(items []*Item) []*Item {
 type agedBrie struct{}
 
 func (agedBrie) adjustQuality(sellIn, quality int) int {
-	if quality < maxQuality {
-		quality++
+	if quality >= maxQuality {
+		return quality
 	}
-	return quality
+	return quality + 1
 }
 
 func (agedBrie) adjustExpiredQuality(quality int) int {
-	if quality < maxQuality {
-		quality++
+	if quality >= maxQuality {
+		return quality
 	}
-	return quality
+	return quality + 1
 }
 
 type backstage struct{}
@@ -83,15 +83,15 @@ func (backstage) adjustExpiredQuality(quality int) int {
 type normal struct{}
 
 func (normal) adjustQuality(sellIn, quality int) int {
-	if quality > minQuality {
-		quality--
+	if quality <= minQuality {
+		return quality
 	}
-	return quality
+	return quality - 1
 }
 
 func (normal) adjustExpiredQuality(quality int) int {
-	if quality > minQuality {
-		quality--
+	if quality <= minQuality {
+		return quality
 	}
-	return quality
+	return quality - 1
 }
