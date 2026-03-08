@@ -7,6 +7,7 @@ type Item struct {
 
 const maxQuality = 50
 const minQuality = 0
+const normalDegradation = 1
 
 type itemBehavior interface {
 	adjustQuality(sellIn, quality int) int
@@ -32,6 +33,8 @@ func UpdateQuality(items []*Item) []*Item {
 			result[i] = updateItem(items[i], agedBrie{})
 		case "Backstage passes to a TAFKAL80ETC concert":
 			result[i] = updateItem(items[i], backstage{})
+		case "Conjured Mana Cake":
+			result[i] = updateItem(items[i], conjured{})
 		default:
 			result[i] = updateItem(items[i], normal{})
 		}
@@ -80,18 +83,42 @@ func (backstage) adjustExpiredQuality(quality int) int {
 	return minQuality
 }
 
+type conjured struct{}
+
+const conjuredDegradation = normalDegradation * 2
+
+func (conjured) adjustQuality(sellIn, quality int) int {
+	if quality <= minQuality {
+		return quality
+	}
+	if quality <= conjuredDegradation {
+		return minQuality
+	}
+	return quality - conjuredDegradation
+}
+
+func (conjured) adjustExpiredQuality(quality int) int {
+	if quality <= minQuality {
+		return quality
+	}
+	if quality <= conjuredDegradation {
+		return minQuality
+	}
+	return quality - conjuredDegradation
+}
+
 type normal struct{}
 
 func (normal) adjustQuality(sellIn, quality int) int {
 	if quality <= minQuality {
 		return quality
 	}
-	return quality - 1
+	return quality - normalDegradation
 }
 
 func (normal) adjustExpiredQuality(quality int) int {
 	if quality <= minQuality {
 		return quality
 	}
-	return quality - 1
+	return quality - normalDegradation
 }
