@@ -44,14 +44,10 @@ func UpdateQuality(items []*Item) []*Item {
 
 type agedBrie struct{}
 
-func (agedBrie) adjustQuality(sellIn, quality int) int {
-	if quality >= maxQuality {
-		return quality
-	}
-	return quality + 1
-}
+func (a agedBrie) adjustQuality(sellIn, quality int) int { return a.increase(quality) }
+func (a agedBrie) adjustExpiredQuality(quality int) int  { return a.increase(quality) }
 
-func (agedBrie) adjustExpiredQuality(quality int) int {
+func (agedBrie) increase(quality int) int {
 	if quality >= maxQuality {
 		return quality
 	}
@@ -87,17 +83,10 @@ type conjured struct{}
 
 const conjuredDegradation = normalDegradation * 2
 
-func (conjured) adjustQuality(sellIn, quality int) int {
-	if quality <= minQuality {
-		return quality
-	}
-	if quality <= conjuredDegradation {
-		return minQuality
-	}
-	return quality - conjuredDegradation
-}
+func (c conjured) adjustQuality(sellIn, quality int) int { return c.degrade(quality) }
+func (c conjured) adjustExpiredQuality(quality int) int  { return c.degrade(quality) }
 
-func (conjured) adjustExpiredQuality(quality int) int {
+func (conjured) degrade(quality int) int {
 	if quality <= minQuality {
 		return quality
 	}
@@ -109,14 +98,10 @@ func (conjured) adjustExpiredQuality(quality int) int {
 
 type normal struct{}
 
-func (normal) adjustQuality(sellIn, quality int) int {
-	if quality <= minQuality {
-		return quality
-	}
-	return quality - normalDegradation
-}
+func (n normal) adjustQuality(sellIn, quality int) int { return n.degrade(quality) }
+func (n normal) adjustExpiredQuality(quality int) int  { return n.degrade(quality) }
 
-func (normal) adjustExpiredQuality(quality int) int {
+func (normal) degrade(quality int) int {
 	if quality <= minQuality {
 		return quality
 	}
