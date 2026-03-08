@@ -15,9 +15,9 @@ func Test_通常アイテム_SellInとQualityが1減少する(t *testing.T) {
 		{"foo", 10, 20},
 	}
 
-	gildedrose.UpdateQuality(items)
+	updated := gildedrose.UpdateQuality(items)
 
-	assertItem(t, items[0], expected{SellIn: 9, Quality: 19})
+	assertItem(t, updated[0], expected{SellIn: 9, Quality: 19})
 }
 
 func Test_通常アイテム_期限切れ後はQualityが2減少する(t *testing.T) {
@@ -25,9 +25,9 @@ func Test_通常アイテム_期限切れ後はQualityが2減少する(t *testin
 		{"foo", 0, 20},
 	}
 
-	gildedrose.UpdateQuality(items)
+	updated := gildedrose.UpdateQuality(items)
 
-	assertItem(t, items[0], expected{SellIn: -1, Quality: 18})
+	assertItem(t, updated[0], expected{SellIn: -1, Quality: 18})
 }
 
 func Test_通常アイテム_Qualityは0未満にならない(t *testing.T) {
@@ -35,9 +35,9 @@ func Test_通常アイテム_Qualityは0未満にならない(t *testing.T) {
 		{"foo", 5, 0},
 	}
 
-	gildedrose.UpdateQuality(items)
+	updated := gildedrose.UpdateQuality(items)
 
-	assertItem(t, items[0], expected{SellIn: 4, Quality: 0})
+	assertItem(t, updated[0], expected{SellIn: 4, Quality: 0})
 }
 
 func Test_通常アイテム_期限切れ後もQualityは0未満にならない(t *testing.T) {
@@ -45,9 +45,9 @@ func Test_通常アイテム_期限切れ後もQualityは0未満にならない(
 		{"foo", 0, 1},
 	}
 
-	gildedrose.UpdateQuality(items)
+	updated := gildedrose.UpdateQuality(items)
 
-	assertItem(t, items[0], expected{SellIn: -1, Quality: 0})
+	assertItem(t, updated[0], expected{SellIn: -1, Quality: 0})
 }
 
 func Test_通常アイテム_期限切れ後にQualityが0なら0のまま(t *testing.T) {
@@ -55,9 +55,9 @@ func Test_通常アイテム_期限切れ後にQualityが0なら0のまま(t *te
 		{"foo", 0, 0},
 	}
 
-	gildedrose.UpdateQuality(items)
+	updated := gildedrose.UpdateQuality(items)
 
-	assertItem(t, items[0], expected{SellIn: -1, Quality: 0})
+	assertItem(t, updated[0], expected{SellIn: -1, Quality: 0})
 }
 
 //
@@ -69,9 +69,9 @@ func Test_Sulfuras_SellInもQualityも変化しない(t *testing.T) {
 		{"Sulfuras, Hand of Ragnaros", 0, 80},
 	}
 
-	gildedrose.UpdateQuality(items)
+	updated := gildedrose.UpdateQuality(items)
 
-	assertItem(t, items[0], expected{SellIn: 0, Quality: 80})
+	assertItem(t, updated[0], expected{SellIn: 0, Quality: 80})
 }
 
 func Test_Sulfuras_SellInが正の場合も変化しない(t *testing.T) {
@@ -79,9 +79,9 @@ func Test_Sulfuras_SellInが正の場合も変化しない(t *testing.T) {
 		{"Sulfuras, Hand of Ragnaros", 10, 80},
 	}
 
-	gildedrose.UpdateQuality(items)
+	updated := gildedrose.UpdateQuality(items)
 
-	assertItem(t, items[0], expected{SellIn: 10, Quality: 80})
+	assertItem(t, updated[0], expected{SellIn: 10, Quality: 80})
 }
 
 func Test_Sulfuras_SellInが負の場合も変化しない(t *testing.T) {
@@ -89,9 +89,9 @@ func Test_Sulfuras_SellInが負の場合も変化しない(t *testing.T) {
 		{"Sulfuras, Hand of Ragnaros", -1, 80},
 	}
 
-	gildedrose.UpdateQuality(items)
+	updated := gildedrose.UpdateQuality(items)
 
-	assertItem(t, items[0], expected{SellIn: -1, Quality: 80})
+	assertItem(t, updated[0], expected{SellIn: -1, Quality: 80})
 }
 
 //
@@ -103,9 +103,9 @@ func Test_AgedBrie_日が経つほどQualityが上がる(t *testing.T) {
 		{"Aged Brie", 10, 20},
 	}
 
-	gildedrose.UpdateQuality(items)
+	updated := gildedrose.UpdateQuality(items)
 
-	assertItem(t, items[0], expected{SellIn: 9, Quality: 21})
+	assertItem(t, updated[0], expected{SellIn: 9, Quality: 21})
 }
 
 func Test_AgedBrie_1日前はQualityが1上がる_境界値(t *testing.T) {
@@ -113,9 +113,9 @@ func Test_AgedBrie_1日前はQualityが1上がる_境界値(t *testing.T) {
 		{"Aged Brie", 1, 20},
 	}
 
-	gildedrose.UpdateQuality(items)
+	updated := gildedrose.UpdateQuality(items)
 
-	assertItem(t, items[0], expected{SellIn: 0, Quality: 21})
+	assertItem(t, updated[0], expected{SellIn: 0, Quality: 21})
 }
 
 func Test_AgedBrie_期限切れ後はQualityが2上がる_境界値(t *testing.T) {
@@ -123,9 +123,9 @@ func Test_AgedBrie_期限切れ後はQualityが2上がる_境界値(t *testing.T
 		{"Aged Brie", 0, 20},
 	}
 
-	gildedrose.UpdateQuality(items)
+	updated := gildedrose.UpdateQuality(items)
 
-	assertItem(t, items[0], expected{SellIn: -1, Quality: 22})
+	assertItem(t, updated[0], expected{SellIn: -1, Quality: 22})
 }
 
 func Test_AgedBrie_Qualityは50を超えない(t *testing.T) {
@@ -133,9 +133,9 @@ func Test_AgedBrie_Qualityは50を超えない(t *testing.T) {
 		{"Aged Brie", 10, 50},
 	}
 
-	gildedrose.UpdateQuality(items)
+	updated := gildedrose.UpdateQuality(items)
 
-	assertItem(t, items[0], expected{SellIn: 9, Quality: 50})
+	assertItem(t, updated[0], expected{SellIn: 9, Quality: 50})
 }
 
 func Test_AgedBrie_期限切れ後もQualityは50を超えない(t *testing.T) {
@@ -143,9 +143,9 @@ func Test_AgedBrie_期限切れ後もQualityは50を超えない(t *testing.T) {
 		{"Aged Brie", 0, 49},
 	}
 
-	gildedrose.UpdateQuality(items)
+	updated := gildedrose.UpdateQuality(items)
 
-	assertItem(t, items[0], expected{SellIn: -1, Quality: 50})
+	assertItem(t, updated[0], expected{SellIn: -1, Quality: 50})
 }
 
 //
@@ -159,9 +159,9 @@ func Test_Backstage_11日前はQualityが1上がる(t *testing.T) {
 		{backstage, 11, 20},
 	}
 
-	gildedrose.UpdateQuality(items)
+	updated := gildedrose.UpdateQuality(items)
 
-	assertItem(t, items[0], expected{SellIn: 10, Quality: 21})
+	assertItem(t, updated[0], expected{SellIn: 10, Quality: 21})
 }
 
 func Test_Backstage_10日前はQualityが2上がる_境界値(t *testing.T) {
@@ -169,9 +169,9 @@ func Test_Backstage_10日前はQualityが2上がる_境界値(t *testing.T) {
 		{backstage, 10, 20},
 	}
 
-	gildedrose.UpdateQuality(items)
+	updated := gildedrose.UpdateQuality(items)
 
-	assertItem(t, items[0], expected{SellIn: 9, Quality: 22})
+	assertItem(t, updated[0], expected{SellIn: 9, Quality: 22})
 }
 
 func Test_Backstage_6日前はQualityが2上がる(t *testing.T) {
@@ -179,9 +179,9 @@ func Test_Backstage_6日前はQualityが2上がる(t *testing.T) {
 		{backstage, 6, 20},
 	}
 
-	gildedrose.UpdateQuality(items)
+	updated := gildedrose.UpdateQuality(items)
 
-	assertItem(t, items[0], expected{SellIn: 5, Quality: 22})
+	assertItem(t, updated[0], expected{SellIn: 5, Quality: 22})
 }
 
 func Test_Backstage_5日前はQualityが3上がる_境界値(t *testing.T) {
@@ -189,9 +189,9 @@ func Test_Backstage_5日前はQualityが3上がる_境界値(t *testing.T) {
 		{backstage, 5, 20},
 	}
 
-	gildedrose.UpdateQuality(items)
+	updated := gildedrose.UpdateQuality(items)
 
-	assertItem(t, items[0], expected{SellIn: 4, Quality: 23})
+	assertItem(t, updated[0], expected{SellIn: 4, Quality: 23})
 }
 
 func Test_Backstage_1日前はQualityが3上がる(t *testing.T) {
@@ -199,9 +199,9 @@ func Test_Backstage_1日前はQualityが3上がる(t *testing.T) {
 		{backstage, 1, 20},
 	}
 
-	gildedrose.UpdateQuality(items)
+	updated := gildedrose.UpdateQuality(items)
 
-	assertItem(t, items[0], expected{SellIn: 0, Quality: 23})
+	assertItem(t, updated[0], expected{SellIn: 0, Quality: 23})
 }
 
 func Test_Backstage_コンサート終了後はQualityが0になる(t *testing.T) {
@@ -209,9 +209,9 @@ func Test_Backstage_コンサート終了後はQualityが0になる(t *testing.T
 		{backstage, 0, 20},
 	}
 
-	gildedrose.UpdateQuality(items)
+	updated := gildedrose.UpdateQuality(items)
 
-	assertItem(t, items[0], expected{SellIn: -1, Quality: 0})
+	assertItem(t, updated[0], expected{SellIn: -1, Quality: 0})
 }
 
 func Test_Backstage_Qualityは50を超えない(t *testing.T) {
@@ -219,9 +219,9 @@ func Test_Backstage_Qualityは50を超えない(t *testing.T) {
 		{backstage, 5, 49},
 	}
 
-	gildedrose.UpdateQuality(items)
+	updated := gildedrose.UpdateQuality(items)
 
-	assertItem(t, items[0], expected{SellIn: 4, Quality: 50})
+	assertItem(t, updated[0], expected{SellIn: 4, Quality: 50})
 }
 
 //
